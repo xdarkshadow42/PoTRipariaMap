@@ -196,3 +196,20 @@
     font: 13px/1.4 sans-serif;
     cursor: pointer;
 }
+.place-label {
+    background: none;
+    border: 0;
+    pointer-events: none;
+}
+
+.place-label span {
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    user-select: none;
+    font: bold 15px/1.2 sans-serif;
+    color: #ffffff;
+    text-shadow: -1px -1px 0 #000000, 1px -1px 0 #000000, -1px 1px 0 #000000, 1px 1px 0 #000000, 0 0 4px #000000;
+}

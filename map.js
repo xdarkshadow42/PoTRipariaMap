@@ -3,7 +3,9 @@
 import { loadLayers } from './firebase.js';
 import { addDatabaseLayers } from './marker_logic/layers.js';
 import { setupEditor, restoreSavedView, showNotice } from './editor.js';
+import { addPlaces, showLayerOnce } from './marker_logic/places.js';
 
+showLayerOnce('PoTRipariaMap', 'Places');
 // Step 1: Create the map
 const interactive_map = new InteractiveMap('map', {
     // Limits automatic zooming (e.g. "locate" buttons) to this zoom level
@@ -35,7 +37,7 @@ try {
 }
 
 addDatabaseLayers(interactive_map, data);
-
+addPlaces(interactive_map);
 // Step 4: Finish the map after all layers were added
 interactive_map.finalize();
 
