@@ -10,6 +10,7 @@ export const PLACES = [
     { name: 'Black Fern Hills', at: '18.6875,-82' },
     { name: 'Cedrus Forest', at: '51.59375,-69.40625' },
     { name: 'Big Tree Overlook', at: '76.59375,-67' },
+    { name: 'Stillwater Bog', at: '80.375,-95.9375' },
     { name: 'Twisted Forest', at: '108.28125,-77.25' },
     { name: 'Stonebed Shoal', at: '151.71875,-79.5' },
     { name: 'Palm Islands', at: '147.25,-53.53125' },
