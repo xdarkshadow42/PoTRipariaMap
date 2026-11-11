@@ -561,4 +561,9 @@ export function setupEditor(interactive_map, layerData) {
             }
         }
     });
+     const goBack = document.querySelector('a[href="#go-back"]');
+
+    if (goBack && goBack.parentElement) {
+        goBack.parentElement.remove();
+    }
 }
