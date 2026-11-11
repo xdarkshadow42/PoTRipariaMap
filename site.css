@@ -1,0 +1,198 @@
+/* Styles for the Firebase editor and the shape markers (loaded after common/style.css) */
+
+[hidden] {
+    display: none !important;
+}
+
+/* || Shape markers (Decorations = circle, Events = square) */
+
+.shape-icon {
+    background: none;
+    border: 0;
+}
+
+.shape-marker {
+    box-sizing: border-box;
+    width: 22px;
+    height: 22px;
+    border: 3px solid #ffffff;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6), 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.shape-circle {
+    border-radius: 50%;
+}
+
+.shape-square {
+    border-radius: 3px;
+}
+
+/* || Editor bar */
+
+.editor-bar {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2100;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    max-width: calc(100vw - 100px);
+    padding: 8px 12px;
+    background: #ffffff;
+    border-radius: 6px;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+    font: 13px/1.4 sans-serif;
+}
+
+.editor-user {
+    font-weight: bold;
+}
+
+.leaflet-container.adding-marker {
+    cursor: crosshair !important;
+}
+
+/* || Buttons and form fields */
+
+.editor-button {
+    padding: 6px 12px;
+    border: 1px solid #b5b5b5;
+    border-radius: 4px;
+    background: #ffffff;
+    font: inherit;
+    cursor: pointer;
+}
+
+.editor-button:hover {
+    background: #f0f0f0;
+}
+
+.editor-button.primary {
+    background: #2e6c97;
+    border-color: #2e6c97;
+    color: #ffffff;
+}
+
+.editor-button.primary:hover {
+    background: #25577a;
+}
+
+.editor-button.primary.active {
+    background: #b3261e;
+    border-color: #b3261e;
+}
+
+.editor-button.danger {
+    color: #b3261e;
+    border-color: #b3261e;
+}
+
+.editor-button:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.editor-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 220px;
+}
+
+.editor-field {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 12px;
+}
+
+.editor-field input[type="text"],
+.editor-field input[type="email"],
+.editor-field input[type="password"],
+.editor-field select,
+.editor-field textarea {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 5px 6px;
+    border: 1px solid #b5b5b5;
+    border-radius: 4px;
+    font: inherit;
+    font-size: 14px;
+}
+
+.editor-field input[type="color"] {
+    width: 60px;
+    height: 32px;
+    padding: 0;
+}
+
+.editor-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+.editor-popup-actions {
+    margin-top: 8px;
+}
+
+.editor-popup h3 {
+    margin: 0 0 8px;
+    text-align: center;
+}
+
+.editor-message {
+    margin: 0;
+    min-height: 1em;
+    color: #b3261e;
+    font-size: 13px;
+}
+
+/* || Sign-in dialog */
+
+.editor-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.editor-dialog {
+    box-sizing: border-box;
+    width: min(340px, calc(100vw - 32px));
+    padding: 16px 20px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+    font: 14px/1.4 sans-serif;
+}
+
+.editor-dialog h2 {
+    margin: 0 0 12px;
+    font-size: 18px;
+}
+
+/* || Notice banner (e.g. when the markers could not be loaded) */
+
+.editor-notice {
+    position: fixed;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3000;
+    max-width: calc(100vw - 120px);
+    padding: 8px 14px;
+    background: #fdecea;
+    border: 1px solid #b3261e;
+    border-radius: 6px;
+    color: #5f1410;
+    font: 13px/1.4 sans-serif;
+    cursor: pointer;
+}

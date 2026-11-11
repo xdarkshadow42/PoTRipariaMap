@@ -397,7 +397,7 @@ class InteractiveLayer {
 
             var title = document.createElement('h2');
             title.className = 'popup-title';
-            title.innerHTML = feature.properties.name ? feature.properties.name : feature.properties.id;
+            title.textContent = feature.properties.name ? feature.properties.name : feature.properties.id;
 
             html.appendChild(title);
 

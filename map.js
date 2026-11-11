@@ -1,63 +1,46 @@
-// Step 0:
-// Add all feature geoJSON and layer logic to the `index.html`
-// In this example this is:
-// * `marker/collectibles.js`
-// * `marker/information.js`
-// * `marker_logic/collectibles.js`
-// * `marker_logic/information.js`
+// ES module: runs after all the classic scripts in index.html have loaded.
 
-// Step 1:
-// Initialize the map with basic information
-var interactive_map = new InteractiveMap('map', {
-    // This will limit automatic zooming to this zoom level
+import { loadLayers } from './firebase.js';
+import { addDatabaseLayers } from './marker_logic/layers.js';
+import { setupEditor, restoreSavedView, showNotice } from './editor.js';
+
+// Step 1: Create the map
+const interactive_map = new InteractiveMap('map', {
+    // Limits automatic zooming (e.g. "locate" buttons) to this zoom level
     max_good_zoom: 4,
-    // This is the max zoom the map will allow
+    // The highest zoom the map allows. Your image is only sharp up to zoom 3 (the tiles), 4 and 5 are enlarged
     max_map_zoom: 5,
-    website_source: 'https://xdarkshadow42.github.io/PoTRipariaMap/',
+    website_source: 'https://github.com/xdarkshadow42/PoTRipariaMap',
+    // Must be exactly the name of your GitHub repository
     website_subdir: 'PoTRipariaMap',
-    attribution: `
-    <li><a href="https://www.example.com/index.html">$Thing</a> used by <a href="https://www.example.com/index.html">$person</a> under <a href="https://www.example.com/index.html">$license</a></li>
-    <li>This project uses sample images from <a href="https://picsum.photos/">picsum.photos</a></li>
-`
+    // Credits shown in the info panel. Add one <li> per credit, for example:
+    // <li>Map image by <a href="https://example.com">Somebody</a></li>
+    attribution: ''
 });
 
-// Step 2:
-// Add at least one tile layer
-//
-// generate them from an image with (don't forget do adjust the zoom levels `-z`):
-// https://github.com/commenthol/gdal2tiles-leaflet
-// `./gdal2tiles.py -l -p raster -w none -z 3-5 full_map.jpg map_tiles`
-interactive_map.addTileLayer('Ingame map', {
+// Step 2: Add your map image (the tiles made with gdal2tiles, zoom 0-3)
+interactive_map.addTileLayer('Riparia map', {
     minNativeZoom: 0,
-    maxNativeZoom: 3,
-    attribution: 'Map from <a href="https://www.example.com/index.html">$source</a>'
+    maxNativeZoom: 3
 });
 
-// Step 2.5 (optional):
-// Add more tile layer
-// interactive_map.addTileLayer('Overview', {
-//     minNativeZoom: 2,
-//     maxNativeZoom: 4,
-//     attribution: 'Map from <a href="https://www.example.com/index.html">$source</a>'
-// }, 'overview_tiles/{z}/{x}/{y}.png');
+// Step 3: Load the markers from Firebase and add the three layers
+let data = {};
 
-// Step 3:
-// Add at least one marker layer
-// The order matters - they will appear in this order in the sidebar and layer control
-// See `marker_logic/collectibles.js` for a really basic layer
-addCollectibles(interactive_map);
+try {
+    data = await loadLayers();
+} catch (error) {
+    console.error('Could not load the markers:', error);
+    showNotice('Could not load the markers from the database. Check your connection and reload the page.');
+}
 
-// Step 3.5 (optional):
-// Add more marker layer
-// See `marker_logic/information.js` for more advanced technics
-addInformation(interactive_map);
+addDatabaseLayers(interactive_map, data);
 
-// Step 4:
-// Finalize the map after adding all layers.
+// Step 4: Finish the map after all layers were added
 interactive_map.finalize();
 
-// Step 5:
-// Open `index.html` to view the map.
-// You can now add additional layers by clicking the edit button in the lower left
-// While editing a layer you can export the geoJSON in the toolbar on the right when you're done
-// and add them here to step 3 to display them fixed for all users.
+// After saving a marker the page reloads; this puts the view back where the editor was
+restoreSavedView(interactive_map);
+
+// Step 5: Sign-in and editing tools
+setupEditor(interactive_map, data);

@@ -61,7 +61,7 @@ class InteractiveMap {
         this.#map.on('overlayadd', event => {
             this.addUserLayer(event.name);
         });
-        this.#map.on('overlayremove ', event => {
+        this.#map.on('overlayremove', event => {
             this.removeUserLayer(event.name);
 
             if (this.hasLayer(this.#getLayerByName(event.name))) {
@@ -186,8 +186,14 @@ class InteractiveMap {
         });
         this.#custom_layers.addLayersToMap(this.#user_layers);
 
-        // Center view over map
-        this.zoomToBounds(this.#getBounds());
+        // Open with the whole map visible (the bounds of the first tile layer).
+        // Only if there is no tile layer fall back to fitting around the markers.
+        const first_tile_layer = Object.values(this.#tile_layers)[0];
+        if (first_tile_layer && first_tile_layer.options.bounds) {
+            this.#map.fitBounds(first_tile_layer.options.bounds);
+        } else {
+            this.zoomToBounds(this.#getBounds());
+        }
 
         // hide all previously checked marker
         this.getLayers().forEach((layer, layer_id) => {
@@ -362,6 +368,11 @@ class InteractiveMap {
      * @param {L.LatLngBounds | L.LatLng[] | L.Point[] | Array[]} bounds Bounds to zoom to. Can be an array of points.
      */
     zoomToBounds(bounds) {
+        // Nothing to zoom to, e.g. a layer without any markers yet
+        if (bounds instanceof L.LatLngBounds && !bounds.isValid()) {
+            return;
+        }
+
         this.#map.fitBounds(bounds, {
             maxZoom: this.MAX_ZOOM
         });
